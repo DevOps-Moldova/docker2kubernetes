@@ -1,0 +1,78 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          required
+          [(ngModel)]="employee.firstName"
+          name="firstName"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <input
+          class="form-control"
+          id="lastname"
+          required
+          [(ngModel)]="employee.lastname"
+          name="lastname"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input
+          class="form-control"
+          id="phoneNumber"
+          required
+          [(ngModel)]="employee.phoneNumber"
+          name="phoneNumber"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          class="form-control"
+          id="email"
+          required
+          [(ngModel)]="employee.email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="department">Department</label><br>
+        <select name="department" id="department" [(ngModel)]="employee.department">
+          <option value="HUMAN_RESOURCE">HUMAN_RESOURCE</option>
+          <option value="ENGINEERING">ENGINEERING</option>
+          <option value="MARKETING">MARKETING</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="salary">Salary</label>
+        <input
+        type="number"
+          class="form-control"
+          id="salary"
+          required
+          [(ngModel)]="employee.salary"
+          name="salary"
+        />
+      </div>
+
+      <button (click)="saveEmployee()" class="btn btn-success">Submit</button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>Employee was submitted successfully!</h4>
+      <button class="btn btn-success" (click)="newEmployee()">Add</button>
+    </div>
+  </div>
+</div>
