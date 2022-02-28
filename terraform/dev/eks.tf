@@ -49,20 +49,20 @@ module "eks" {
       max_size     = 3
       desired_size = 1
 
-      instance_types = ["t2.micro"]
+      instance_types = ["t2.small"]
       capacity_type  = "SPOT"
       labels = {
         Environment = "dev_g"
         GithubRepo  = "terraform-aws-eks"
         GithubOrg   = "terraform-aws-modules"
       }
-      taints = {
-        dedicated = {
-          key    = "dedicated"
-          value  = "gpuGroup"
-          effect = "NO_SCHEDULE"
-        }
-      }
+      # taints = {
+      #   dedicated = {
+      #     key    = "dedicated"
+      #     value  = "gpuGroup"
+      #     effect = "NO_SCHEDULE"
+      #   }
+      # }
       tags = local.tags
     }
   }

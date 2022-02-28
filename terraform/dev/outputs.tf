@@ -18,3 +18,12 @@ output "docker_repositories" {
 output "jenkins_public_ip" {
   value = aws_instance.jenkins.public_ip
 }
+
+output "db_password"{
+  value = module.db.db_instance_password
+  sensitive = true
+}
+
+output "db_address" {
+  value = module.db.db_instance_address
+}

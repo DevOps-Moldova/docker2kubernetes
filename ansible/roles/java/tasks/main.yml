@@ -1,0 +1,12 @@
+---
+# Debian.
+- name: Update apt cache.
+  apt: 
+    update_cache: true 
+    cache_valid_time: 600
+  changed_when: false
+
+- name: Install java package.
+  apt:
+    name: "{{ java_packages }}"
+    state: present

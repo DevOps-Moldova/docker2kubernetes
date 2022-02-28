@@ -1,0 +1,19 @@
+---
+# tasks file for pip3
+
+- name: Install python3 and python3-pip APT packages
+  apt:
+    name:
+      - python
+      - python3-pip
+      - python-setuptools
+      - python3-docker
+    state: latest
+    update_cache: yes
+  become: true
+
+# - name: Upgrade pip3
+#   pip:
+#     executable: pip3
+#     name: pip
+#     state: latest

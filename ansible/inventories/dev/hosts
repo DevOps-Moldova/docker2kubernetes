@@ -1,0 +1,3 @@
+
+[ci]
+jenkins ansible_ssh_host=34.242.155.125

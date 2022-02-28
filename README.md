@@ -84,5 +84,5 @@ Some configuration require more steps or operations. Ansible will manage package
 
 ``` bash
 cd ansible
-ansible-playbook setup_jenkins.yml -i inventories/ci/ --private-key ../terraform/ci/ssh_key
+ansible-playbook setup_jenkins.yml -i inventories/dev/ --private-key ../terraform/dev/ssh_key 
 ```

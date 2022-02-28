@@ -67,9 +67,31 @@ variable "jenkins_instance_size" {
 }
 
 variable "ami_name" {
+  type = string
+  description = "Ubuntu AMI name"
   default = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220131"
 }
 
 variable "ssh_user" {
+  type = string
+  description = "Jenkins ssh username"
   default = "demouser"
+}
+
+variable "db_instance_class" {
+  type = string
+  description = "RDS instance_class name"
+  default = "db.t3.micro"
+}
+
+variable "db_username" {
+  type = string
+  description = "Database Username"
+  default = "demoadmin"
+}
+
+variable "db_dbname" {
+  type = string
+  description = "Database name"
+  default = "employees"
 }

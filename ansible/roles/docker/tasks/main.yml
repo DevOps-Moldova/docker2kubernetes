@@ -1,0 +1,21 @@
+---
+# tasks file for pip3
+
+- name: Install docker
+  apt:
+    name:
+      - docker.io
+    state: latest
+    update_cache: yes
+  notify: restartDocker
+  become: true
+
+- name: Add the user  to docker group
+  user:
+    name: "{{ server_user}}"
+    groups: docker
+  become: true
+
+- name: Update python docker
+  shell: "pip install --upgrade docker"
+
