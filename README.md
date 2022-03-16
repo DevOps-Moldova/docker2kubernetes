@@ -80,7 +80,24 @@ resources deployed with terraform
 
 ## Environment configuration
 
-Some configuration require more steps or operations. Ansible will manage packages confiugration and os customizations. Package `ansible` is available in or repositories
+Some configuration require more steps or operations. Ansible will manage packages confiugration and os customizations. Package `ansible` is available in os repositories
+
+### Use ansible encryption
+
+Vault secret password 6ha5trQ4Wyrf8rAcOp
+encrypt secrets
+
+``` bash
+ansible-vault encrypt --ask-vault-pass  --encrypt-vault-id default inventories/dev/group_vars/all/secrets.yaml
+```
+
+decrypt secrets
+
+``` bash
+ansible-vault decrypt --ask-vault-pass  inventories/dev/group_vars/all/secrets.yaml
+```
+
+### Run ansible playbooks
 
 ``` bash
 cd ansible

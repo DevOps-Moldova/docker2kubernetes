@@ -12,9 +12,10 @@ The output of that is used to work out what Java stuff I needed to create here.
 import hudson.util.PersistedList
 import jenkins.model.Jenkins
 import jenkins.branch.*
+import com.igalg.jenkins.plugins.multibranch.buildstrategy.*
 import jenkins.plugins.git.*
 import org.jenkinsci.plugins.workflow.multibranch.*
-import com.cloudbees.hudson.plugins.folder.*
+import com.cloudbees.hudson.plugins.folder.computed.*
 
 // Bring some values in from ansible using the jenkins_script modules wierd "args" approach (these are not gstrings)
 String folderName = "$folderName"
@@ -23,6 +24,7 @@ String jobScript = "$jobScript"
 String gitRepo = "$gitRepo"
 String gitRepoName = "$gitRepoName"
 String credentialsId = "$credentialsId"
+String gitFolderToWatch = "$gitFolder"
 
 Jenkins jenkins = Jenkins.instance // saves some typing
 
@@ -46,6 +48,7 @@ if ( item != null ) {
 
 // Configure the script this MBP uses
 mbp.getProjectFactory().setScriptPath(jobScript)
+mbp.addTrigger(new PeriodicFolderTrigger("10m"));
 
 // Add git repo
 String id = null
@@ -69,6 +72,8 @@ NamedExceptionsBranchPropertyStrategy.Named[] nebpsa = [ nebrs_n ]
 
 BranchProperty[] bpa = [noTriggerBranchProperty]
 NamedExceptionsBranchPropertyStrategy nebps = new NamedExceptionsBranchPropertyStrategy(bpa, nebpsa)
+
+branchSource.setBuildStrategies([new IncludeRegionBranchBuildStrategy(gitFolderToWatch)])
 
 branchSource.setStrategy(nebps)
 

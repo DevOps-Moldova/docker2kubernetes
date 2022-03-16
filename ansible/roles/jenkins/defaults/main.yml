@@ -44,6 +44,7 @@ jenkins_plugins:
   - ansible
   - maven-invoker-plugin
   - credentials
+  - multibranch-build-strategy-extension
 
 #  - blueocean
 #  - name: influxdb

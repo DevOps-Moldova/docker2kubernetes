@@ -1,14 +1,19 @@
 - hosts: jenkins
   user: "{{ server_user }}"
   vars:
-    jenkins_admin_password: 7WdC5Epb02Zl
-    jenkins_jobs:
-      - name: backend
-        git_repo: "ssh://git@gitlab.codefactorygroup.com:3967/devops/docker2kubernetes.git"
-    # private_key: "{{ lookup('file', 'ssh_key_jenkins') }}"
-    private_key: "ssh_key_jenkins"
-    # -----BEGIN OPENSSH PRIVATE KEY-----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-----END OPENSSH PRIVATE KEY-----
+    jenkins_admin_password: "{{ jenkins_password }}" 
+    private_key: "{{ git_private_key }}"
   become: true
   roles:
-    # - role: jenkins
+    - role: jenkins
     - role: jenkins_jobs
+      vars: 
+        jenkins_jobs:
+          - name: backend
+            git_repo: "git@bitbucket.org:andrei_prescornic/docker2kubernetes.git"
+            git_folder: "java/**"
+            pipeline: "java/employee-management-backend/pipelines/build.groovy"
+          - name: frontend
+            git_repo: "git@bitbucket.org:andrei_prescornic/docker2kubernetes.git"
+            git_folder: "angular/**"
+            pipeline: "angular/employee-management-frontend/pipelines/build.groovy"
