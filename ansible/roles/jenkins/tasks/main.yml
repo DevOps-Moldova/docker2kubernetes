@@ -63,7 +63,7 @@
 
 - name: Add the user 'jenkins' to docker group
   user:
-    name: jenkins_process_user
+    name: "{{ jenkins_process_user }}"
     groups: docker
     append: yes
 

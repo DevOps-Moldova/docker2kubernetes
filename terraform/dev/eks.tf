@@ -67,6 +67,13 @@ module "eks" {
     }
   }
 
-
   tags = local.tags
+}
+
+resource "local_file" "kubeconfig" {
+
+  content              = local.kubeconfig
+  filename             = var.kubeconfig_output_path
+  file_permission      = "0600"
+  directory_permission = "0755"
 }

@@ -16,3 +16,4 @@ terraform.rc
 
 **/ssh_key*
 **/kubeconfig*
+**/tfstate*

@@ -45,6 +45,9 @@ jenkins_plugins:
   - maven-invoker-plugin
   - credentials
   - multibranch-build-strategy-extension
+  - docker-workflow
+  - amazon-ecr
+  - aws-credentials
 
 #  - blueocean
 #  - name: influxdb

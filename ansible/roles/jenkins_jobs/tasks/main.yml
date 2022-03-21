@@ -11,6 +11,17 @@
     password: "{{ jenkins_admin_password }}"
     url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}"
 
+- name: set jenkins aws credentials
+  jenkins_script:
+    script: "{{ lookup('file', 'templates/add-aws-secret.groovy') }}"
+    args:
+      name: "ecr_key"  
+      accessKey: "{{ ci_ecr.user_access_key }}"
+      secKey: "{{ ci_ecr.user_access_secret }}"
+      description: "AWS credentials for AWS ECR pull"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}"
 
 - name: Add Jenkins folder
   jenkins_script:

@@ -84,7 +84,8 @@ Some configuration require more steps or operations. Ansible will manage package
 
 ### Use ansible encryption
 
-Vault secret password 6ha5trQ4Wyrf8rAcOp
+Vault secret password `6ha5trQ4Wyrf8rAcOp`
+
 encrypt secrets
 
 ``` bash

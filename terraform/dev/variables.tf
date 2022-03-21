@@ -46,7 +46,8 @@ variable "trusted_ip" {
   description = "Whitelisted IPs"
   default = [
     "217.12.117.42/32",
-    "37.233.62.175/32"
+    "37.233.62.175/32",
+    "188.237.201.94/32"
   ]
 }
 
@@ -67,31 +68,37 @@ variable "jenkins_instance_size" {
 }
 
 variable "ami_name" {
-  type = string
+  type        = string
   description = "Ubuntu AMI name"
-  default = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220131"
+  default     = "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20220131"
 }
 
 variable "ssh_user" {
-  type = string
+  type        = string
   description = "Jenkins ssh username"
-  default = "demouser"
+  default     = "demouser"
 }
 
 variable "db_instance_class" {
-  type = string
+  type        = string
   description = "RDS instance_class name"
-  default = "db.t3.micro"
+  default     = "db.t3.micro"
 }
 
 variable "db_username" {
-  type = string
+  type        = string
   description = "Database Username"
-  default = "demoadmin"
+  default     = "demoadmin"
 }
 
 variable "db_dbname" {
-  type = string
+  type        = string
   description = "Database name"
-  default = "employees"
+  default     = "employees"
+}
+
+variable "kubeconfig_output_path" {
+  description = "Where to save the Kubectl config file (if `write_kubeconfig = true`). Assumed to be a directory if the value ends with a forward slash `/`."
+  type        = string
+  default     = "./kubeconfig"
 }
