@@ -84,7 +84,9 @@ Some configuration require more steps or operations. Ansible will manage package
 
 ### Use ansible encryption
 
-Vault secret password `6ha5trQ4Wyrf8rAcOp`
+All ansible credentials should be encrypted
+
+For this repository vault secret password is `6ha5trQ4Wyrf8rAcOp`
 
 encrypt secrets
 
@@ -104,3 +106,50 @@ ansible-vault decrypt --ask-vault-pass  inventories/dev/group_vars/all/secrets.y
 cd ansible
 ansible-playbook setup_jenkins.yml -i inventories/dev/ --private-key ../terraform/dev/ssh_key 
 ```
+
+## Jenkins instance
+
+Jenkins is fully configured with ANsible and dont need any manual changes.
+
+Jenkins IP address can be extracted from terraform with command 
+
+```bash
+terraform output jenkins_public_ip
+```
+
+### Automatic builds
+
+Builds are automatically triggered on changes in java or angular folders. Both services are in same repo but is recomended to keep services in separated git repositories. Build pipelines are configured in `[java|angular]repos/pipelines/build.groovy`
+
+## Helm charts
+
+All services deploys are made with helm charts
+
+### Generate a new helm chart
+
+```bash
+cd helm-charts
+helm create backend
+```
+
+After creation service require some customizations in `values.yaml` for image name and some environment variables if used.
+
+All service credentials should be stored in a secured storage liek `kubernetes secrets`, `AWS KMS` or `hashicorm vault`. In this demo helm credentials are plaintext in values.yaml (insecured) and deployed in kubernetes secrets.
+
+### Deploy an helm chart
+
+```bash
+helm upgrade -i backend helm-charts/backend
+# Or with specific image tag
+helm upgrade -i backend helm-charts/backend --set image.tag=feature_branch
+```
+
+### Publish deployed applications
+
+Frontend application is configured with srvice type `LoadBalancer`. AWS will expose that resource as public LoadBalancer. LoadBalancer address can be detected with kubcctl
+
+```bash
+kubectl get service frontend
+```
+
+Application can be accessed via URL <http://a82606d778f674a2b907d2cbb61447d1-849513479.eu-west-1.elb.amazonaws.com>

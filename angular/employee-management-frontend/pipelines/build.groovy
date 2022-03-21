@@ -5,10 +5,8 @@ pipeline {
         disableConcurrentBuilds()
     }
     environment {
-        def serviceName = ""; 
-        def repoName = "";
+        def serviceName = "frontend"; 
         def branchName = "";
-        def commitID = "";
         def versionName = "";
         def dockerRegistry = "209591221760.dkr.ecr.eu-west-1.amazonaws.com"
         def imageName = "";
@@ -20,8 +18,6 @@ pipeline {
             steps {
                 script {
                     echo 'Init variables'
-
-                    serviceName =  "backend"
                     branchName = env.BRANCH_NAME
                     versionName = env.BRANCH_NAME
                     imageName = "${serviceName}:${versionName}"
@@ -42,7 +38,7 @@ pipeline {
             steps {
                 script {
                     echo 'Build docker image'
-                    dir('java/employee-management-backend/') {
+                    dir('angular/employee-management-frontend/') {
                         dockerImage = docker.build(imageName, , "-f pipelines/Dockerfile .")
                     }
                     
