@@ -24,4 +24,13 @@ resource "helm_release" "mysql" {
     value = "employee_db"
   }
 
+  set {
+    name  = "persistence.enabled"
+    value = "false"
+  }
+
+  depends_on = [
+    module.eks,
+  ]
+
 }

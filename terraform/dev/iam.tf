@@ -58,9 +58,19 @@ resource "aws_iam_policy" "service_ecr_manage_manage" {
           "ecr:InitiateLayerUpload",
           "ecr:UploadLayerPart",
           "ecr:CompleteLayerUpload",
-          "ecr:PutImage"
+          "ecr:PutImage",
+          "eks:DescribeCluster"
         ],
         "Resource" : "*"
+      },
+      {
+        "Sid" : "DescibeEKScluster",
+        "Effect" : "Allow",
+        "Action" : [
+          "eks:DescribeCluster",
+          "eks:ListClusters"
+        ],
+        "Resource" : "arn:aws:eks:eu-west-1:209591221760:cluster/*"
       }
     ]
   })

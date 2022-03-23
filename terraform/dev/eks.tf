@@ -1,7 +1,7 @@
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "18.7.2"
+  version = "18.11.0"
 
 
   cluster_name                    = var.cluster_name
@@ -11,7 +11,8 @@ module "eks" {
   cluster_endpoint_public_access_cidrs = concat(
     [var.vpc_cidr],
     local.vpc_public_ips,
-    var.trusted_ip
+    var.trusted_ip,
+    ["${aws_instance.jenkins.public_ip}/32"]
   )
 
   cluster_addons = {
@@ -66,8 +67,9 @@ module "eks" {
       tags = local.tags
     }
   }
-
+  
   tags = local.tags
+
 }
 
 resource "local_file" "kubeconfig" {
@@ -76,4 +78,27 @@ resource "local_file" "kubeconfig" {
   filename             = var.kubeconfig_output_path
   file_permission      = "0600"
   directory_permission = "0755"
+
+   lifecycle {
+    prevent_destroy  = true
+  }
+}
+
+module "eks_auth" {
+  source = "aidanmelen/eks-auth/aws"
+  eks    = module.eks
+    patch  = true
+
+    map_users = [
+    {
+      userarn  = aws_iam_user.service_ecr_manage_manage.arn
+      username = aws_iam_user.service_ecr_manage_manage.name
+      groups   = ["system:masters"]
+    },
+  ]
+
+  depends_on = [
+    module.eks,
+  ]
+
 }

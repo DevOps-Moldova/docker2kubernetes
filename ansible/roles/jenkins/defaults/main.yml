@@ -48,6 +48,7 @@ jenkins_plugins:
   - docker-workflow
   - amazon-ecr
   - aws-credentials
+  - ssh-credentials
 
 #  - blueocean
 #  - name: influxdb

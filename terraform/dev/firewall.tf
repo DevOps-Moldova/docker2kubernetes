@@ -50,6 +50,14 @@ resource "aws_security_group" "whitelisted_traffic" {
     cidr_blocks = var.trusted_ip
   }
 
+  # ingress {
+  #   description = "jenkins server"
+  #   from_port = 0
+  #   to_port = 0
+  #   protocol = "-1"
+  #   cidr_blocks = "${aws_instance.jenkins.public_ip}/32"
+  # }
+
   tags = local.tags
 }
 
@@ -65,8 +73,25 @@ resource "aws_security_group" "internal_traffic" {
     protocol    = "-1"
     cidr_blocks = concat(
       [var.vpc_cidr],
-      local.vpc_public_ips
+      local.vpc_public_ips,
+      ["${aws_instance.jenkins.public_ip}/32"]
     )
+  }
+
+  tags = local.tags
+}
+
+resource "aws_security_group" "jenkins_traffic" {
+  name        = "${var.cluster_name}-jenkins-traffic"
+  description = "Allow jenkins traffic"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    description = "all internal traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["${aws_instance.jenkins.public_ip}/32"]
   }
 
   tags = local.tags

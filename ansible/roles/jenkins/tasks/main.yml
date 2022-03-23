@@ -20,6 +20,8 @@
       - curl
       - apt-transport-https
       - gnupg
+      - acl
+      - awscli
     state: present
 
 - name: Add Jenkins apt repository key.
@@ -141,10 +143,34 @@
   apt_repository:
     repo: ppa:ansible/ansible
 
-- name: Install ansible
+- name: Install dependencies
   apt:
     name:
       - ansible
     state: latest
     update_cache: yes
   become: true
+
+- name: Add Google official GPG key
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes Repository
+  apt_repository:
+    repo: deb http://apt.kubernetes.io/ kubernetes-xenial main 
+    state: present
+    filename: kubernetes
+    mode: 0600
+
+- name: Installing Kubernetes Cluster Packages.
+  apt: 
+    name:
+      - kubectl
+    state: present
+
+- name: Install Helm 
+  shell: curl -s  https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+- name: Restart Jenkins to be sure all changes applied
+  service: name=jenkins state=restarted

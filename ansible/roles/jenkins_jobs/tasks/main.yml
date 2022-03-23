@@ -27,13 +27,16 @@
   jenkins_script:
     script: "{{ lookup('file', 'templates/add-folder.groovy') }}"
     args:
-      folderName: "builds"
+      folderName: "{{ item }}"
     url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}"
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
+  with_items: 
+    - "builds"
+    - "deploy"
 
 
-- name: Add deployment pipeline
+- name: Add build pipeline
   jenkins_script:
     script: "{{ lookup('file', 'templates/add-multibranch-pipeline-job.groovy') }}"
     args:
@@ -48,3 +51,30 @@
     user: "{{ jenkins_admin_username }}"
     password: "{{ jenkins_admin_password }}"
   with_items: "{{ jenkins_jobs }}"
+
+- name: Add deploy pipeline
+  jenkins_script:
+    script: "{{ lookup('file', 'templates/add-pipeline-job.groovy') }}"
+    args:
+      folderName: "deploy"
+      jobName: "{{ item.name }}"
+      gitRepo: "{{ item.git_repo }}"
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}{{ jenkins_url_prefix }}"
+    user: "{{ jenkins_admin_username }}"
+    password: "{{ jenkins_admin_password }}"
+  with_items: "{{ jenkins_jobs }}"
+
+
+- name: Configure AWS.
+  shell: aws configure set {{ item.key }} {{ item.value }} 
+  # no_log: True
+  with_dict:
+    aws_access_key_id: "{{ ci_ecr.user_access_key }}"
+    aws_secret_access_key: "{{ ci_ecr.user_access_secret }}"
+    region: "{{ ci_ecr.region }}"
+  become_user: "jenkins"
+
+- name: COnfigure Kubernetes
+  shell: aws eks update-kubeconfig --name training 
+  become_user: "jenkins"
+  no_log: True

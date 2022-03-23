@@ -34,7 +34,6 @@ resource "aws_instance" "jenkins" {
   vpc_security_group_ids = [
     aws_security_group.allow_outgoing_traffic.id,
     aws_security_group.whitelisted_traffic.id,
-    aws_security_group.internal_traffic.id,
   ]
 
   root_block_device {
